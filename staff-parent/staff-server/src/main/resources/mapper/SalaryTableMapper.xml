@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.staff.server.mapper.SalaryTableMapper">
+  <resultMap id="BaseResultMap" type="com.staff.common.pojo.SalaryTable">
+    <id column="SALARY_ID" jdbcType="BIGINT" property="salaryId" />
+    <result column="YEAR" jdbcType="VARCHAR" property="year" />
+    <result column="MONTH" jdbcType="VARCHAR" property="month" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
+    <result column="MODIFIED_TIME" jdbcType="TIMESTAMP" property="modifiedTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
+    <result column="STAFF_COUNT" jdbcType="VARCHAR" property="staffCount" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="SALARY_NUM" jdbcType="INTEGER" property="salaryNum" />
+    <result column="TYPE" jdbcType="CHAR" property="type" />
+    <result column="COMMONT" jdbcType="VARCHAR" property="commont" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SALARY_ID, YEAR, MONTH, CREATE_TIME, MODIFIED_TIME, STAFF_COUNT, STATUS, SALARY_NUM, 
+    TYPE, COMMONT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from salary_table
+    where SALARY_ID = #{salaryId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from salary_table
+    where SALARY_ID = #{salaryId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.staff.common.pojo.SalaryTable">
+    insert into salary_table (SALARY_ID, YEAR, MONTH, 
+      CREATE_TIME, 
+      MODIFIED_TIME, 
+      STAFF_COUNT, STATUS, SALARY_NUM, 
+      TYPE, COMMONT)
+    values (#{salaryId,jdbcType=BIGINT}, #{year,jdbcType=VARCHAR}, #{month,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler}, 
+      #{modifiedTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler}, 
+      #{staffCount,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{salaryNum,jdbcType=INTEGER}, 
+      #{type,jdbcType=CHAR}, #{commont,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.staff.common.pojo.SalaryTable">
+    insert into salary_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="salaryId != null">
+        SALARY_ID,
+      </if>
+      <if test="year != null">
+        YEAR,
+      </if>
+      <if test="month != null">
+        MONTH,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="modifiedTime != null">
+        MODIFIED_TIME,
+      </if>
+      <if test="staffCount != null">
+        STAFF_COUNT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="salaryNum != null">
+        SALARY_NUM,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="commont != null">
+        COMMONT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="salaryId != null">
+        #{salaryId,jdbcType=BIGINT},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="month != null">
+        #{month,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
+      </if>
+      <if test="staffCount != null">
+        #{staffCount,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="salaryNum != null">
+        #{salaryNum,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="commont != null">
+        #{commont,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.staff.common.pojo.SalaryTable">
+    update salary_table
+    <set>
+      <if test="year != null">
+        YEAR = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="month != null">
+        MONTH = #{month,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
+      </if>
+      <if test="modifiedTime != null">
+        MODIFIED_TIME = #{modifiedTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
+      </if>
+      <if test="staffCount != null">
+        STAFF_COUNT = #{staffCount,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="salaryNum != null">
+        SALARY_NUM = #{salaryNum,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=CHAR},
+      </if>
+      <if test="commont != null">
+        COMMONT = #{commont,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SALARY_ID = #{salaryId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.staff.common.pojo.SalaryTable">
+    update salary_table
+    set YEAR = #{year,jdbcType=VARCHAR},
+      MONTH = #{month,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
+      MODIFIED_TIME = #{modifiedTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
+      STAFF_COUNT = #{staffCount,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      SALARY_NUM = #{salaryNum,jdbcType=INTEGER},
+      TYPE = #{type,jdbcType=CHAR},
+      COMMONT = #{commont,jdbcType=VARCHAR}
+    where SALARY_ID = #{salaryId,jdbcType=BIGINT}
+  </update>
+  <select id="selectSalaryByParam" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from salary_table
+    <where>
+      <if test="year != null and year != ''">
+        YEAR = #{year,jdbcType=VARCHAR}
+      </if>
+      <if test="month != null and month != ''">
+        AND MONTH = #{month,jdbcType=VARCHAR}
+      </if>
+      <if test="staffCount != null and staffCount != ''">
+        AND STAFF_COUNT = #{staffCount,jdbcType=VARCHAR}
+      </if>
+      AND STATUS = '1'
+    </where>
+  </select>
+  <select id="selectSalryCount" resultType="java.lang.Integer">
+    select
+    count(1)
+    from salary_table
+    <where>
+      <if test="year != null and year != ''">
+        YEAR = #{year,jdbcType=VARCHAR}
+      </if>
+      <if test="month != null and month != ''">
+        AND MONTH = #{month,jdbcType=VARCHAR}
+      </if>
+      <if test="staffCount != null and staffCount != ''">
+        AND STAFF_COUNT = #{staffCount,jdbcType=VARCHAR}
+      </if>
+      AND STATUS = '1'
+    </where>
+  </select>
+  <select id="selectSalaryByPageNo" resultType="com.staff.common.pojo.SalaryTable">
+    select
+      SALARY_ID salaryId,
+      YEAR year,
+      MONTH month,
+      stt.STAFF_COUNT staffCount,
+      stt.STAFF_NAME staffName,
+      SALARY_NUM salaryNum,
+      TYPE type,
+      sat.COMMONT commont
+    from salary_table sat
+    inner join staff_table stt
+    on sat.STAFF_COUNT = stt.STAFF_COUNT
+    <where>
+      <if test="year != null and year != ''">
+        YEAR = #{year,jdbcType=VARCHAR}
+      </if>
+      <if test="month != null and month != ''">
+        AND MONTH = #{month,jdbcType=VARCHAR}
+      </if>
+      <if test="staffCount != null and staffCount != ''">
+        AND sat.STAFF_COUNT = #{staffCount,jdbcType=VARCHAR}
+      </if>
+      AND sat.STATUS = '1'
+      AND stt.STATUS = '1'
+    </where>
+    limit #{pageNo, jdbcType=INTEGER},10
+  </select>
+</mapper>

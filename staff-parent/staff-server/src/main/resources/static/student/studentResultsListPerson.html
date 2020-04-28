@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <title>登录</title>
+  <link rel="stylesheet" rev="stylesheet" href="../css/style.css" type="text/css" media="all" />
+  <script language="JavaScript" type="text/javascript">
+  </script>
+  <style type="text/css">
+  </style>
+  <script type="text/javascript"
+          src="/js/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript"
+          src="/js/allParam.js"></script>
+  <script type="text/javascript">
+      // 总页数
+      var pageTotal = 1;
+      // 当前页数
+      var pageNum = 1;
+      var ccount = "";
+      var scount="";
+
+      function next() {
+          if (pageNum == pageTotal) {
+              return;
+          }
+          pageNum++;
+          search(ccount, scount, pageNum);
+      }
+      function before() {
+          if (pageNum == 1) {
+              return;
+          }
+          pageNum--;
+          search(ccount, scount, pageNum);
+      }
+      function searchForParam() {
+          pageNum = 1;
+          ccount = $("#ccount").val();
+          scount = $("#scount").val();
+          search(ccount, scount, pageNum);
+      }
+      function search(ccount,scount, pageNo) {
+          var xhr = new XMLHttpRequest();
+          xhr.open("post", "/private/system/getPersonResult", true);
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState==4 && xhr.status==200) {
+                  // 判断异常
+                  var obj = JSON.parse(xhr.responseText);
+                  if (obj["code"] != "200") {
+                      alert(obj["message"]);
+                  } else {
+                      var data = obj["data"];
+                      pageTotal = data['pageTotal'];
+                      $("#pageTotal").text(pageTotal);
+                      $("#pageNo").text(pageNo);
+                      var resultsList = data['resultsList'];
+                      $("tr").remove(".sonTr");
+                      for (var i = 0; i < resultsList.length; i++) {
+                          $("#resultsTable").append("<tr class=\"sonTr\">\n" +
+                              "\t\t\t\t    <td bgcolor=\"#FFFFFF\"><div align=\"center\">"+resultsList[i].scount+"</div></td>\n" +
+                              "                    <td height=\"20\" bgcolor=\"#FFFFFF\"><div align=\"center\">"+resultsList[i].sname+"</div></td>\n" +
+                              "                    <td bgcolor=\"#FFFFFF\"><div align=\"center\">"+resultsList[i].ccount+"</div></td>\n" +
+                              "                    <td bgcolor=\"#FFFFFF\"><div align=\"center\">"+resultsList[i].cname+"</div></td>\n" +
+                              "                    <td bgcolor=\"#FFFFFF\"><div align=\"center\">"+resultsList[i].grade+"</div></td>\n");
+                      }
+                  }
+              }
+          }
+          var req = {};
+          req["pageNo"] = pageNo;
+          req["ccount"] = ccount;
+          req["scount"] = scount;
+          xhr.setRequestHeader("Content-type","application/json;charset=UTF-8");
+          xhr.send(JSON.stringify(req));
+      }
+
+    $(function () {
+        search("","",1);
+    });
+
+
+  </script>
+</head>
+
+<body>
+<form name="fom" id="fom" method="post">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 
+  <tr>
+    <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="62" background="../images/nav04.gif"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="24"><img src="../images/ico07.gif" width="20" height="18" /></td>
+            <td width="519">
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td><table id="subtree1" style="DISPLAY: " width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+	
+					                  <tr>
+                    <td height="20" colspan="9" align="center" bgcolor="#EEEEEE"class="tablestyle_title"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 学生成绩列表 &nbsp;</td>
+                    </tr>
+              <tr>
+                <td height="40" class="font42"><table id = "resultsTable" width="100%" border="0" cellpadding="4" cellspacing="1" bgcolor="#464646" class="newfont03">
+                  <tr>
+				    <td width="20%" align="center" bgcolor="#EEEEEE">学号</td>
+                    <td width="20%" height="20" align="center" bgcolor="#EEEEEE">姓名</td>
+                    <td width="20%" align="center" bgcolor="#EEEEEE">课程编号</td>
+                    <td width="20%" align="center" bgcolor="#EEEEEE">课程名称</td>
+                    <td width="20%" align="center" bgcolor="#EEEEEE">成绩</td>
+                  </tr>
+                </table></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table>
+      <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td height="6"><img src="../images/spacer.gif" width="1" height="1" /></td>
+        </tr>
+        <tr>
+          <td height="33"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="right-font08">
+              <tr>
+                <td width="50%">共 <span id = "pageTotal" class="right-text09">5</span> 页 | 第 <span class="right-text09">1</span> 页</td>
+                <td width="49%" align="right"><a href="#" class="right-font08" onclick="before()">上一页</a> | <a href="#" class="right-font08" onclick="next()">下一页</a></td>
+                <td width="1%"><table width="20" border="0" cellspacing="0" cellpadding="0">
+                </table></td>
+              </tr>
+          </table></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+</form>
+</body>
+</html>

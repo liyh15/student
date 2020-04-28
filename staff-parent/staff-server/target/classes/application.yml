@@ -1,0 +1,30 @@
+server:
+  port: 8010
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+  application:
+    name: server
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    jdbcUrl: jdbc:mysql://192.168.1.102:3306/student?useUnicode=true&characterEncoding=UTF-8&socketTimeout=60000
+    userName: root
+    password: 1234
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 500
+        min-idle: 0
+    lettuce:
+      shutdown-timeout: 0
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+

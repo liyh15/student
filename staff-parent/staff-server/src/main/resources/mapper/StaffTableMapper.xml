@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.staff.server.mapper.StaffTableMapper">
+  <resultMap id="BaseResultMap" type="com.staff.common.pojo.StaffTable">
+    <id column="STAFF_ID" jdbcType="BIGINT" property="staffId" />
+    <result column="STAFF_NAME" jdbcType="VARCHAR" property="staffName" />
+    <result column="IDENTITY_ID" jdbcType="VARCHAR" property="identityId" />
+    <result column="STAFF_COUNT" jdbcType="VARCHAR" property="staffCount" />
+    <result column="STAFF_PASSWORD" jdbcType="VARCHAR" property="staffPassword" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
+    <result column="MODIFIED_TIME" jdbcType="TIMESTAMP" property="modifiedTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="AGE" jdbcType="INTEGER" property="age" />
+    <result column="SEX" jdbcType="CHAR" property="sex" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="DESCRIBLE" jdbcType="VARCHAR" property="describle" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    STAFF_ID, STAFF_NAME, IDENTITY_ID, STAFF_COUNT, STAFF_PASSWORD, CREATE_TIME, MODIFIED_TIME, 
+    STATUS, PHONE, AGE, SEX, ADDRESS, EMAIL, DESCRIBLE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from staff_table
+    where STAFF_ID = #{staffId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from staff_table
+    where STAFF_ID = #{staffId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.staff.common.pojo.StaffTable">
+    insert into staff_table (STAFF_ID, STAFF_NAME, IDENTITY_ID, 
+      STAFF_COUNT, STAFF_PASSWORD, CREATE_TIME, 
+      MODIFIED_TIME, 
+      STATUS, PHONE, AGE, SEX, 
+      ADDRESS, EMAIL, DESCRIBLE
+      )
+    values (#{staffId,jdbcType=BIGINT}, #{staffName,jdbcType=VARCHAR}, #{identityId,jdbcType=VARCHAR}, 
+      #{staffCount,jdbcType=VARCHAR}, #{staffPassword,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler}, 
+      #{modifiedTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler}, 
+      #{status,jdbcType=CHAR}, #{phone,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{sex,jdbcType=CHAR}, 
+      #{address,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{describle,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.staff.common.pojo.StaffTable">
+    insert into staff_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="staffId != null">
+        STAFF_ID,
+      </if>
+      <if test="staffName != null">
+        STAFF_NAME,
+      </if>
+      <if test="identityId != null">
+        IDENTITY_ID,
+      </if>
+      <if test="staffCount != null">
+        STAFF_COUNT,
+      </if>
+      <if test="staffPassword != null">
+        STAFF_PASSWORD,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="modifiedTime != null">
+        MODIFIED_TIME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="age != null">
+        AGE,
+      </if>
+      <if test="sex != null">
+        SEX,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="describle != null">
+        DESCRIBLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="staffId != null">
+        #{staffId,jdbcType=BIGINT},
+      </if>
+      <if test="staffName != null">
+        #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="identityId != null">
+        #{identityId,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCount != null">
+        #{staffCount,jdbcType=VARCHAR},
+      </if>
+      <if test="staffPassword != null">
+        #{staffPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="describle != null">
+        #{describle,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.staff.common.pojo.StaffTable">
+    update staff_table
+    <set>
+      <if test="staffName != null">
+        STAFF_NAME = #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="identityId != null">
+        IDENTITY_ID = #{identityId,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCount != null">
+        STAFF_COUNT = #{staffCount,jdbcType=VARCHAR},
+      </if>
+      <if test="staffPassword != null and staffPassword != '' ">
+        STAFF_PASSWORD = #{staffPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
+      </if>
+      <if test="modifiedTime != null">
+        MODIFIED_TIME = #{modifiedTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        AGE = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        SEX = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="describle != null">
+        DESCRIBLE = #{describle,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where STAFF_ID = #{staffId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.staff.common.pojo.StaffTable">
+    update staff_table
+    set STAFF_NAME = #{staffName,jdbcType=VARCHAR},
+      IDENTITY_ID = #{identityId,jdbcType=VARCHAR},
+      STAFF_COUNT = #{staffCount,jdbcType=VARCHAR},
+      STAFF_PASSWORD = #{staffPassword,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
+      MODIFIED_TIME = #{modifiedTime,jdbcType=TIMESTAMP,typeHandler=org.apache.ibatis.type.LocalDateTimeTypeHandler},
+      STATUS = #{status,jdbcType=CHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      AGE = #{age,jdbcType=INTEGER},
+      SEX = #{sex,jdbcType=CHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      DESCRIBLE = #{describle,jdbcType=VARCHAR}
+    where STAFF_ID = #{staffId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByCount" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from staff_table
+    where STAFF_COUNT = #{count, jdbcType=BIGINT}
+    and STATUS = '1'
+  </select>
+  <select id="selectByName" resultType="com.staff.common.dto.GetStaffDTO">
+    select
+      STAFF_ID staffId,
+      STAFF_NAME staffName,
+      IDENTITY_ID identityId,
+      st.STAFF_COUNT staffCount,
+      STAFF_PASSWORD staffPassword,
+      PHONE phone,
+      AGE age,
+      SEX sex,
+      ADDRESS address,
+      EMAIL email,
+      DESCRIBLE describle,
+      wt.WORK_NAME workName
+    from staff_table st
+    left join work_staff_table wst
+    on st.STAFF_COUNT = wst.STAFF_COUNT and wst.STATUS = '1'
+    left join work_table wt on wst.WORK_ID = wt.WORK_ID and wt.STATUS = '1'
+    where st.STATUS = '1'
+    <if test="name != null and name != ''">
+    and STAFF_NAME like concat('%',#{name, jdbcType=VARCHAR},'%')
+    </if>
+    limit #{pageNo, jdbcType=INTEGER},10
+  </select>
+  <select id="selectCountByName" resultType="java.lang.Integer">
+    select
+    count(1)
+    from staff_table
+    where STATUS = '1'
+    <if test="name != null and name != ''">
+      and STAFF_NAME like concat('%',#{name, jdbcType=VARCHAR},'%')
+    </if>
+  </select>
+  <select id="selectByStaffCount" resultType="com.staff.common.dto.GetStaffDTO">
+    select
+    STAFF_ID staffId,
+    STAFF_NAME staffName,
+    IDENTITY_ID identityId,
+    st.STAFF_COUNT staffCount,
+    STAFF_PASSWORD staffPassword,
+    PHONE phone,
+    AGE age,
+    SEX sex,
+    ADDRESS address,
+    EMAIL email,
+    DESCRIBLE describle,
+    wt.WORK_NAME workName
+    from staff_table st
+    left join work_staff_table wst
+    on st.STAFF_COUNT = wst.STAFF_COUNT and wst.STATUS = '1'
+    left join work_table wt on wst.WORK_ID = wt.WORK_ID and wt.STATUS = '1'
+    where st.STATUS = '1'
+    <if test="staffCount != null and staffCount != ''">
+      and st.STAFF_COUNT = #{staffCount, jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from staff_table
+    where STATUS = '1'
+  </select>
+</mapper>

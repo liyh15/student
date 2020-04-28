@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title>登录</title>
+    <link rel="stylesheet" rev="stylesheet" href="../css/style.css" type="text/css" media="all" />
+    <script language="JavaScript" type="text/javascript">
+    </script>
+    <style type="text/css">
+    </style>
+    <script type="text/javascript"
+            src="/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript"
+            src="/js/allParam.js"></script>
+</head>
+<body>
+<form name="fom" id="fom" method="post">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+  <tr>
+    <td height="30">      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td height="62" background="../images/nav04.gif">
+            
+		   <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+		    <tr>
+			  <td width="24"><img src="../images/ico07.gif" width="20" height="18" /></td>
+		    </tr>
+          </table></td>
+        </tr>
+    </table></td></tr>
+  <tr>
+    <td><table id="subtree1" style="DISPLAY: " width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><table id = "listTable" width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td height="40" class="font42"><table id = "userTable" width="100%" border="0" cellpadding="4" cellspacing="1" bgcolor="#464646" class="newfont03">
+
+					                  <tr>
+                    <td height="20" colspan="15" align="center" bgcolor="#EEEEEE"class="tablestyle_title"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 学生成绩录入 &nbsp;</td>
+                    </tr>
+                  <tr>
+                    <td width="33%" height="20" align="center" bgcolor="#EEEEEE">课程编号</td>
+                    <td width="33%" align="center" bgcolor="#EEEEEE">课程名称</td>
+                    <td width="34%" align="center" bgcolor="#EEEEEE">分数</td>
+                    </tr>
+                </table></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table>
+      <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td height="6"><img src="../images/spacer.gif" width="1" height="1" /></td>
+        </tr>
+          <tr>
+              <td height="6"><input type = "button" value = "确认" onclick="inputSource()" style="font-size: 30px"/></td>
+          </tr>
+      </table></td>
+  </tr>
+</table>
+</form>
+</body>
+<script type="text/javascript">
+    var userCount;
+    var userName;
+
+    function inputSource() {
+        var array = [];
+        var a = 1
+        $(".sonTr").each(function () {
+           var result = {};
+           result['ccount'] = $(this).children().eq(0).text();
+           result['cname'] = $(this).children().eq(1).text();
+           result['grade'] = $(this).children().eq(2).children().eq(0).val();
+           result['sname'] = userName;
+           result['scount'] = userCount;
+           if (result['grade'] == '' || result['grade'] == null){
+               if (a == 0) {
+                  return;
+               }
+               alert("分数不能为空");
+               a = 0;
+               return;
+           }
+           array.push(result);
+        });
+        if (a == 0) {
+            return;
+        }
+        var request = {};
+        request ['scount'] = userCount;
+        request ['resultsList'] = array;
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", "/private/system/inputResults", true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState==4 && xhr.status==200) {
+                // 判断异常
+                var obj = JSON.parse(xhr.responseText);
+                if (obj["code"] != "200") {
+                    alert(obj["message"]);
+                } else {
+                    alert("录入成功");
+                    window.history.go(-1);
+                }
+            }
+        };
+        xhr.setRequestHeader("Content-type","application/json;charset=UTF-8");
+        xhr.send(JSON.stringify(request));
+    }
+
+    function getCountDetail() {
+        // 页面初始化
+        var obj = {};
+        var a=GetRequest();
+        userCount = a["userCount"];
+        userName = a["userName"];
+        obj['userCount'] = userCount;
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", "/private/system/getUserDetail", true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState==4 && xhr.status==200) {
+                // 判断异常
+                var obj = JSON.parse(xhr.responseText);
+                if (obj["code"] != "200") {
+                    alert(obj["message"]);
+                } else {
+                    var data = obj["data"];
+                    var getUserDetailDTO = data['getUserDetailDTO'];
+                    var courseList = getUserDetailDTO['stuCourseList'];
+                    for (var i = 0; i < courseList.length; i ++) {
+                        $("#userTable").append("<tr class=\"sonTr\">\n" +
+                            "\t\t\t\t\t<td height=\"20\" bgcolor=\"#FFFFFF\">"+courseList[i].ccount+"</td>\n" +
+                            "                    <td bgcolor=\"#FFFFFF\">"+courseList[i].cname+"</td>\n" +
+                            "                    <td bgcolor=\"#FFFFFF\"><input value = "+courseList[i].grade+" type='text' placeholder='请输入分数'></td>\n" +
+                            "                  </tr>");
+                    }
+                }
+            }
+        };
+        xhr.setRequestHeader("Content-type","application/json;charset=UTF-8");
+        xhr.send(JSON.stringify(obj));
+    }
+    $(function () {
+        getCountDetail();
+    })
+</script>
+</html>
