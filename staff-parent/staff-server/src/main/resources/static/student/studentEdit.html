@@ -262,8 +262,12 @@
 					  <tr>
 					    <td align="right">电话号码:</td>
 					    <td><input id = "phone" class="text" name='phone' style="width:154px" value=""/><span class="red">*</span></td>
-						  <td align="right">选则课程:</td>aaa
-						  <td><input  id = "inputCourse"  class="text" style="width:154px" value="无"/></td>
+						  <td align="right">选则课程:</td>
+						  <td><input onfocus="openCourse(1)" id = "inputCourse"  class="text" style="width:154px" value=""/>
+							  <dev id = "chooseCourse" style="display:none;" onfocus="openCourse(0)" onblur="closeCourse(0)" tabindex="1">
+								  <ul id = "courseUl">
+								  </ul>
+							  </dev></td>
 					  </tr>
 					  <tr>
 					    <td align="right">居住地址:</td>
